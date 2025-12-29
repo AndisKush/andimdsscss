@@ -1,24 +1,38 @@
-'use client'; // Necessário pois o botão tem interatividade (onClick/Styles)
+'use client';
+import { useState } from 'react';
+import { AppShell, MenuItem, Button } from '@andisds/ui';
+import { Home, Beaker, LogOut } from 'lucide-react'; // Instale lucide-react no web se precisar dos icones aqui
+// Ou use ícones passados como string/svg simples se não quiser instalar lucide no web
 
-import { Button } from '@andisds/ui';
-import styled from 'styled-components';
+const menu: MenuItem[] = [
+  { id: 'home', label: 'Início', icon: <Home size={20} /> },
+  { 
+    id: 'test', 
+    label: 'Teste', 
+    icon: <Beaker size={20} />, 
+    children: [
+       { id: 't1', label: 'Teste Unitário' },
+       { id: 't2', label: 'Teste E2E' }
+    ]
+  },
+  { id: 'config', label: 'Configurações', icon: <LogOut size={20} />, hiddenOnMobile: true }
+];
 
-// Exemplo de como o app consumidor pode estender estilos locais
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  gap: 20px;
-`;
+export default function Page() {
+  const [collapsed, setCollapsed] = useState(false);
 
-export default function Home() {
   return (
-    <Main>
-      <h1>Orion Design System</h1>
-      <p>Teste de integração do Monorepo</p>
-      
+    <AppShell
+      menuItems={menu}
+      sidebarCollapsed={collapsed}
+      onToggleSidebar={() => setCollapsed(!collapsed)}
+      headerContent={<h3>Bem-vindo, Usuário</h3>}
+      onNavigate={(item: any) => alert(`Navegando para: ${item.label}`)}
+    >
+      <div style={{ padding: '20px', background: 'white', borderRadius: '8px' }}>
+        <h1>Dashboard Principal</h1>
+        <p>Aqui renderiza o children do Next.js (page content).</p>
+      </div>
       <div style={{ display: 'flex', gap: '10px' }}>
         <Button variant="primary" onClick={() => alert('Primary Clicked!')}>
           Botão Primário
@@ -32,6 +46,6 @@ export default function Home() {
           Botão Outline
         </Button>
       </div>
-    </Main>
+    </AppShell>
   );
 }
