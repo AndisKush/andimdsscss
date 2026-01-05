@@ -9,11 +9,10 @@ export const Container = styled.button<ContainerProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  
   padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
   border-radius: 4px;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-size: ${({ theme }) => theme.fontSizes.md};
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   
